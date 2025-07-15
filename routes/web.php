@@ -1,6 +1,10 @@
 <?php
 
-use App\Http\Controllers\CostumerController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,11 +21,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-Route::resource('costumer',CostumerController::class);
 
 Auth::routes();
 Route::middleware(['auth'])->group(function(){
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('costumer',CostumerController::class);
+Route::resource('customers',CustomerController::class);
+Route::resource('categories',CategoriesController::class);
+Route::resource('products',ProductsController::class);
+Route::resource('transactions',TransactionController::class);
+Route::resource('payments',PaymentController::class);
 });
 

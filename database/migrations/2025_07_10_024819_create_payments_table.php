@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->constrained('orders');
-            $table->string('payment_method');
+            $table->foreignId('transaction_id')->constrained('transactions');
             $table->integer('amount');
             $table->string('status')->default('unpaid');
             $table->timestamps();

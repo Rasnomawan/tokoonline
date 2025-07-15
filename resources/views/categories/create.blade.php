@@ -7,8 +7,8 @@
                 @csrf
 
                 <div>
-                    <label for="">Costumer name</label>
-                    <input type="text" name="" id="">
+                    <label for="name">Costumer name</label>
+                    <input type="text" name="name" id="">
                 </div>
                 <div>
                     <label for="">Email</label>
