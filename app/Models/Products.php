@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Products extends Model
 {
     use HasFactory;
+    protected $table = 'products';
     protected $fillable = [
         'product_name',
         'category_id',
@@ -17,6 +18,9 @@ class Products extends Model
         'price'
     ];
     public function category(){
-        return $this->belongsto(Categories::class);
+        return $this->belongsTo(Categories::class,'category_id');
+    }
+    public function transaction(){
+        return $this->hasMany(Transaction::class,'product_id');
     }
 }

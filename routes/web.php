@@ -28,7 +28,18 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::resource('customers',CustomerController::class);
 Route::resource('categories',CategoriesController::class);
 Route::resource('products',ProductsController::class);
-Route::resource('transactions',TransactionController::class);
-Route::resource('payments',PaymentController::class);
+Route::get('/transactions',[TransactionController::class,'index'])->name('transactions.index');
+Route::get('/transactions/buy/{product_id}',[TransactionController::class,'create'])->name('transactions.create'); //ini untuk buy
+Route::post('/transactions',[TransactionController::class,'store'])->name('transactions.store');
+Route::get('/transactions/{id}/edit',[TransactionController::class,'edit'])->name('transactions.edit');
+Route::put('/transactions/{id}',[TransactionController::class,'update'])->name('transactions.update');
+Route::delete('/transactions/{id}',[TransactionController::class,'destroy'])->name('transactions.destroy');
+Route::get('/payments',[PaymentController::class,'index'])->name('payments.index');
+Route::get('/payments/create/{transaction_id}',[PaymentController::class,'create'])->name('payments.create'); //ini untuk bayar
+Route::post('/payments',[PaymentController::class,'store'])->name('payments.store');
+Route::get('/payments/{id}',[PaymentController::class,'show'])->name('payments.show');
+Route::get('/payments/{id}/edit',[PaymentController::class,'edit'])->name('payments.edit');
+Route::put('/payments/{id}',[PaymentController::class,'update'])->name('payments.update');
+Route::delete('/payments/{id}',[PaymentController::class,'destroy'])->name('payments.destroy');
 });
 

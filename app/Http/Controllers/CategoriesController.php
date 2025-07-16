@@ -21,7 +21,8 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        return view('categories.create');
+        $categories = Categories::all();
+        return view('categories.create',compact('categories'));
     }
 
     /**
@@ -30,7 +31,7 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name_category' => 'required|unique',
+            'name_category' => 'required',
         ]);
         Categories::create($validated);
         return redirect()->route('categories.index')->with('success','Category added succesfully');
@@ -47,29 +48,33 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categories $categories)
+    public function edit(Categories $category)
     {
-        return view('categories.edit',compact('categories'));
+        return view('categories.edit',compact('category'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categories $categories)
+    public function update(Request $request, Categories $category)
     {
         $validated = $request->validate([
-            'name_category' => 'required|unique',
+            'name_category' => 'required',
         ]);
-        $categories->update($validated);
+        $category->update($validated);
         return redirect()->route('categories.index')->with('success','Category successfully update');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categories $categories)
+    public function destroy(Categories $category)
     {
-        $categories->delete();
+        if(!$category->product()->exists()){
+            $category->delete();
         return redirect()->route('categories.index')->with('success','Category successfully deleted');
+        }else{
+            return redirect()->route('categories.index')->with('error','Category has products, cannot be deleted');
+        }
     }
 }

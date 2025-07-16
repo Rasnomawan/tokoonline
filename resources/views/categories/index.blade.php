@@ -17,9 +17,12 @@
             @endif
         </div>
         <div class="card">
-            <div class="d-flex justify-content-between">
+            <div class="text-center">
+                <h1>List Category</h1>
+            </div>
+            <div class="d-flex justify-content-between mb-3 mt-2">
                 <a href="{{ route('products.index') }}" class="btn bg-secondary text-white">Back</a>
-                <a href="{{ route('categories.create') }}" class="btn btn-primary mb-3">Add Category</a>
+                <a href="{{ route('categories.create') }}" class="btn bg-primary text-white">Add Category</a>
             </div>
             <div class="card-body"></div>
                <table class="table table-bordered table-striped">
@@ -31,13 +34,13 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($categories as $category)
+            @forelse($category as $c)
                 <tr>
-                    <td>{{ $category->id }}</td>
-                    <td>{{ $category->name_category }}</td>
+                    <td>{{ $c->id }}</td>
+                    <td>{{ $c->name_category }}</td>
                     <td>
-                        <a href="{{ route('categories.edit', $category->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                        <form action="{{ route('categories.destroy', $category->id) }}" method="POST" style="display:inline-block;">
+                        <a href="{{ route('categories.edit', $c->id) }}" class="btn btn-warning btn-sm">Edit</a>
+                        <form action="{{ route('categories.destroy', $c->id) }}" method="POST" style="display:inline-block;">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="btn btn-danger btn-sm"
@@ -47,7 +50,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="3">Tidak ada kategori ditemukan.</td>
+                    <td colspan="3"><a href="{{ route('categories.create') }}">add first </a> if no data appears</td>
                 </tr>
             @endforelse
         </tbody>

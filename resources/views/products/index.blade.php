@@ -39,19 +39,13 @@
 
                             <div class="card-body d-flex flex-column">
                                 <h5 class="card-title">{{ $product->product_name }}</h5>
-                                <p class="card-text mb-1"><strong>Category:</strong> {{ $product->category->name ?? '-' }}</p>
+                                <p class="card-text mb-1"><strong>Category:</strong> {{ $product->category->name_category ?? '-' }}</p>
                                 <p class="card-text mb-1"><strong>Stock:</strong> {{ $product->stock }}</p>
                                 <p class="card-text mb-1"><strong>Price:</strong> Rp {{ number_format($product->price, 0, ',', '.') }}</p>
                                 <p class="card-text"><strong>Description:</strong> {{ Str::limit($product->description, 60) }}</p>
-
                                 <div class="mt-auto d-flex justify-content-between">
-                                    <a href="{{ route('products.show', $product->id) }}" class="btn btn-sm btn-info">Show</a>
-                                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                                    <form action="{{ route('products.destroy', $product->id) }}" method="POST" onsubmit="return confirm('Delete this product?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                                    </form>
+                                    <a href="{{ route('products.show', $product->id) }}" class="btn bg-info mb-3 text-white">Show</a>
+                                    <a href="{{ route('transactions.create',$product->id) }}" class="btn bg-success text-white mb-3">Buy</a>
                                 </div>
                             </div>
                         </div>
