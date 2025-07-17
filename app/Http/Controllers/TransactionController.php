@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Customer;
-use App\Models\Products;
+use App\Models\Product;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -23,7 +23,7 @@ class TransactionController extends Controller
      */
     public function create($id)
     {
-        $product = Products::findOrFail($id);
+        $product = Product::findOrFail($id);
         $maxstock = $product->stock;
         $customers = Customer::all();
         return view('transactions.create', compact('product', 'maxstock', 'customers'));
@@ -40,7 +40,7 @@ class TransactionController extends Controller
             'quantity' => 'required|numeric|min:1',
         ]);
 
-        $product = Products::findOrFail($validated['product_id']);
+        $product = Product::findOrFail($validated['product_id']);
 
         if ($validated['quantity'] > $product->stock) {
             return redirect()->route('transactions.index')->with('error', 'Stock is insufficient');
@@ -64,18 +64,20 @@ class TransactionController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Transaction $transaction)
-{
-    $product = $transaction->product;
+    public function edit($id)
+    {
+        $transaction = Transaction::with('product')->findOrFail($id);
+        $product = $transaction->product;
+         if (!$product) {
+        return redirect()->back()->with('error', 'Produk tidak ditemukan.');
+    }
 
-   
+        $maxstock = ($product->stock ?? 0) + $transaction->quantity;
 
-    $maxstock = $product->stock + $transaction->quantity;
+        $customers = Customer::all();
 
-    $customers = Customer::all();
-
-    return view('transactions.edit', compact('transaction', 'product', 'maxstock', 'customers'));
-}
+        return view('transactions.edit', compact('transaction', 'product', 'maxstock', 'customers'));
+    }
 
 
     /**
@@ -89,7 +91,7 @@ class TransactionController extends Controller
             'quantity' => 'required|numeric|min:1',
         ]);
 
-        $product = Products::findOrFail($validated['product_id']);
+        $product = Product::findOrFail($validated['product_id']);
 
         // Hitung stok dengan menambahkan kembali quantity sebelumnya
         $availableStock = $product->stock + $transaction->quantity;

@@ -26,15 +26,16 @@
 </div>
     <div class="card">
         <div class="text-center mt-2">
-            <h2>Create Transaction</h2>
+            <h2>Edit Transaction</h2>
         </div>
-    <form action="{{ route('transactions.store') }}" method="POST" v>
+    <form action="{{ route('transactions.update',$transaction->id) }}" method="POST">
         @csrf
+        @method('PUT')
 
         {{-- Product Info --}}
         <div class="mb-3">
             <label for="product" class="form-label">Product</label>
-            <input type="text" id="product" class="form-control" value="{{ $product->product_name }}" readonly>
+            <input type="text" id="product_id" class="form-control" value="{{ $transaction->product->product_name ?? 'Produk tidak ditemukan' }}" readonly>
             <input type="hidden" name="product_id" value="{{ $product->id }}">
         </div>
          <div class="mb-3">
@@ -42,7 +43,7 @@
             <select name="customer_id" id="customer_id" class="form-control">
                 <option selected disabled>-- Choose Customer --</option>
                 @foreach($customers as $c)
-                <option value="{{ $c->id }}" {{ (old('customer_id',$c->customer_id) == $c->id) ? 'selected' : '' }}>
+                <option value="{{ $c->id }}" {{ (old('customer_id',$transaction->customer_id) == $c->id) ? 'selected' : '' }}>
                 {{ $c->name }}
                 </option>
                 @endforeach
@@ -55,7 +56,7 @@
         {{-- Quantity --}}
         <div class="mb-3">
             <label for="quantity_id" class="form-label">Quantity</label>
-            <input type="number" name="quantity" id="quantity" min="1" max="{{ $maxstock }}" class="form-control">
+            <input type="number" name="quantity" id="quantity" min="1" max="{{ $maxstock }}" value="{{ old('quantity',$transaction->quantity) }}" class="form-control">
             <div class="invalid-feedback">
                 min 1 -{{ $maxstock }}
             </div>

@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
+use App\Models\Category;
 use Illuminate\Http\Request;
 
-class CategoriesController extends Controller
+class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $category = Categories::all();
+        $category = Category::all();
         return view('categories.index',compact('category'));
     }
 
@@ -21,7 +21,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        $categories = Categories::all();
+        $categories = Category::all();
         return view('categories.create',compact('categories'));
     }
 
@@ -33,14 +33,14 @@ class CategoriesController extends Controller
         $validated = $request->validate([
             'name_category' => 'required',
         ]);
-        Categories::create($validated);
+        Category::create($validated);
         return redirect()->route('categories.index')->with('success','Category added succesfully');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Categories $categories)
+    public function show(Category $categories)
     {
         //
     }
@@ -48,7 +48,7 @@ class CategoriesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Categories $category)
+    public function edit(Category $category)
     {
         return view('categories.edit',compact('category'));
     }
@@ -56,7 +56,7 @@ class CategoriesController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categories $category)
+    public function update(Request $request, Category $category)
     {
         $validated = $request->validate([
             'name_category' => 'required',
@@ -68,7 +68,7 @@ class CategoriesController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categories $category)
+    public function destroy(Category $category)
     {
         if(!$category->product()->exists()){
             $category->delete();

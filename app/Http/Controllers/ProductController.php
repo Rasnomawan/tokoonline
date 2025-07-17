@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Categories;
-use App\Models\Products;
+use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
-class ProductsController extends Controller
+class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Products::paginate(10);
+        $products = Product::paginate(10);
         return view('products.index',compact('products'));
     }
 
@@ -23,7 +23,7 @@ class ProductsController extends Controller
      */
     public function create()
     {
-        $categories = Categories::all();
+        $categories = Category::all();
         return view('products.create',compact('categories'));
     }
 
@@ -47,14 +47,14 @@ class ProductsController extends Controller
             $validated['image'] = $locate;
          }
         
-        Products::create($validated);
+        Product::create($validated);
         return redirect()->route('products.index')->with('success','Product succesfully added');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Products $product)
+    public function show(Product $product)
     {
         return view('products.show',compact('product'));
     }
@@ -62,16 +62,16 @@ class ProductsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Products $product)
+    public function edit(Product $product)
     {
-        $categories = Categories::all();
+        $categories = Category::all();
         return view('products.edit',compact('product','categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Products $product)
+    public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
             'product_name' => 'required',
@@ -98,7 +98,7 @@ class ProductsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Products $product)
+    public function destroy(Product $product)
     {
         if(!$product->transaction()->exists()){
         $product->delete();

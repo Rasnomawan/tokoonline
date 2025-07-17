@@ -1,9 +1,9 @@
 <?php
 
-use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +26,8 @@ Auth::routes();
 Route::middleware(['auth'])->group(function(){
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('customers',CustomerController::class);
-Route::resource('categories',CategoriesController::class);
-Route::resource('products',ProductsController::class);
+Route::resource('categories',CategoryController::class);
+Route::resource('products',ProductController::class);
 Route::get('/transactions',[TransactionController::class,'index'])->name('transactions.index');
 Route::get('/transactions/buy/{product_id}',[TransactionController::class,'create'])->name('transactions.create'); //ini untuk buy
 Route::post('/transactions',[TransactionController::class,'store'])->name('transactions.store');
