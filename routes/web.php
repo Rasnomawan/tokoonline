@@ -32,7 +32,7 @@ Route::get('/transactions',[TransactionController::class,'index'])->name('transa
 Route::get('/transactions/buy/{product_id}',[TransactionController::class,'create'])->name('transactions.create'); //ini untuk buy
 Route::post('/transactions',[TransactionController::class,'store'])->name('transactions.store');
 Route::get('/transactions/{id}/edit',[TransactionController::class,'edit'])->name('transactions.edit');
-Route::put('/transactions/{id}',[TransactionController::class,'update'])->name('transactions.update');
+Route::patch('/transactions/{id}',[TransactionController::class,'update'])->name('transactions.update');
 Route::delete('/transactions/{id}',[TransactionController::class,'destroy'])->name('transactions.destroy');
 Route::get('/payments',[PaymentController::class,'index'])->name('payments.index');
 Route::get('/payments/create/{transaction_id}',[PaymentController::class,'create'])->name('payments.create'); //ini untuk bayar

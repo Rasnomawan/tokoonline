@@ -28,15 +28,16 @@
         <div class="text-center mt-2">
             <h2>Edit Transaction</h2>
         </div>
-    <form action="{{ route('transactions.update',$transaction->id) }}" method="POST">
+    <form action="{{ route('transactions.update',$transaction->id) }}" method="POST" class="needs-validation">
         @csrf
-        @method('PUT')
+        @method('PATCH')
 
         {{-- Product Info --}}
         <div class="mb-3">
             <label for="product" class="form-label">Product</label>
             <input type="text" id="product_id" class="form-control" value="{{ $transaction->product->product_name ?? 'Produk tidak ditemukan' }}" readonly>
-            <input type="hidden" name="product_id" value="{{ $product->id }}">
+            <input type="hidden" name="product_id" value="{{ $product->id ?? $transaction->product_id }}">
+
         </div>
          <div class="mb-3">
             <label for="customer_id" class="form-label">Customer name</label>
