@@ -36,7 +36,7 @@
         <tbody>
             @forelse($category as $c)
                 <tr>
-                    <td>{{ $c->id }}</td>
+                    <td>{{ $loop->iteration }}</td>
                     <td>{{ $c->name_category }}</td>
                     <td>
                         <a href="{{ route('categories.edit', $c->id) }}" class="btn btn-warning btn-sm">Edit</a>

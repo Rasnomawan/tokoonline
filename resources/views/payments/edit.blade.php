@@ -27,13 +27,15 @@
                <div class="text-center">
                  <h1>Payment edit</h1>
                </div>
-           <form action="{{ route('payments.store') }}" method="POST" class="needs-validation" novalidate>
+           <form action="{{ route('payments.update',$payment->id) }}" method="POST" class="needs-validation" novalidate>
             @csrf
+            @method('PUT')
+
 
             <input type="hidden" name="transaction_id" value="{{ $transaction->id }}">
 
             <div class="mb-3">
-                <label class="form-label">Nominal Bayar:{{ $transaction->total_price }}</label>
+                <label class="form-label">payment nominal:{{ $transaction->total_price }}</label>
                 <input type="number" name="amount" class="form-control" value="{{ old('amount',$payment->amount) }}" required>
             </div>
 

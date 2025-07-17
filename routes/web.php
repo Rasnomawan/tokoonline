@@ -38,8 +38,8 @@ Route::get('/payments',[PaymentController::class,'index'])->name('payments.index
 Route::get('/payments/create/{transaction_id}',[PaymentController::class,'create'])->name('payments.create'); //ini untuk bayar
 Route::post('/payments',[PaymentController::class,'store'])->name('payments.store');
 Route::get('/payments/{id}',[PaymentController::class,'show'])->name('payments.show');
-Route::get('/payments/{id}/edit',[PaymentController::class,'edit'])->name('payments.edit');
-Route::put('/payments/{id}',[PaymentController::class,'update'])->name('payments.update');
-Route::delete('/payments/{id}',[PaymentController::class,'destroy'])->name('payments.destroy');
+Route::get('/payments/{payment}/edit',[PaymentController::class,'edit'])->name('payments.edit');
+Route::put('/payments/{payment}',[PaymentController::class,'update'])->name('payments.update');
+Route::delete('/payments/{payment}',[PaymentController::class,'destroy'])->name('payments.destroy');
 });
 

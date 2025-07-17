@@ -96,37 +96,34 @@ public function update(Request $request, $id)
         'quantity' => 'required|numeric|min:1',
     ]);
 
-    DB::beginTransaction();
-    try {
-        $oldProduct = Product::findOrFail($transaction->product_id);
-        $newProduct = Product::findOrFail($validated['product_id']);
+    $oldProduct = Product::findOrFail($transaction->product_id);
+    $newProduct = Product::findOrFail($validated['product_id']);
 
-        $oldProduct->stock += $transaction->quantity;
-        $oldProduct->save();
+    // Kembalikan stok lama
+    $oldProduct->stock += $transaction->quantity;
+    $oldProduct->save();
 
-        if ($validated['quantity'] > $newProduct->stock + ($transaction->product_id === $newProduct->id ? $transaction->quantity : 0)) {
-            DB::rollBack();
-            return redirect()->back()->with('error', 'Stock is not sufficient to update the transaction.');
-        }
+    $availableStock = $newProduct->stock + ($transaction->product_id === $newProduct->id ? $transaction->quantity : 0);
 
-        $newProduct->stock = ($newProduct->stock + ($transaction->product_id === $newProduct->id ? $transaction->quantity : 0)) - $validated['quantity'];
-        $newProduct->save();
-
-        $transaction->update([
-            'product_id' => $validated['product_id'],
-            'customer_id' => $validated['customer_id'],
-            'quantity' => $validated['quantity'],
-            'total_price' => $newProduct->price * $validated['quantity'],
-        ]);
-
-        DB::commit();
-
-        return redirect()->route('transactions.index')->with('success', 'Transaction successfully updated');
-    } catch (\Exception $e) {
-        DB::rollBack();
-        return redirect()->route('transactions.index')->with('error', 'Failed to update transaction: ' . $e->getMessage());
+    if ($validated['quantity'] > $availableStock) {
+        return redirect()->back()->with('error', 'Stock is not sufficient to update the transaction.');
     }
+
+    // Kurangi stok baru
+    $newProduct->stock = $availableStock - $validated['quantity'];
+    $newProduct->save();
+
+    // Update transaksi
+    $transaction->update([
+        'product_id' => $validated['product_id'],
+        'customer_id' => $validated['customer_id'],
+        'quantity' => $validated['quantity'],
+        'total_price' => $newProduct->price * $validated['quantity'],
+    ]);
+
+    return redirect()->route('transactions.index')->with('success', 'Transaction successfully updated');
 }
+
 
 
 

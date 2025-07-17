@@ -33,7 +33,7 @@
             <input type="hidden" name="transaction_id" value="{{ $transaction->id }}">
 
             <div class="mb-3">
-                <label class="form-label">Nominal Bayar:</label>
+                <label class="form-label">payment nominal:{{ $transaction->total_price }}</label>
                 <input type="number" name="amount" class="form-control" required>
             </div>
 

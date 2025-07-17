@@ -49,7 +49,7 @@
             <tbody>
                 @foreach ($transactions as $transaction)
                     <tr>
-                        <td>{{ $transaction->id }}</td>
+                        <td>{{ $loop->iteration}}</td>
                         <td>{{ $transaction->product->product_name ?? 'Unknown Product' }}</td>
                         <td>{{ $transaction->customer->name ?? 'Unknown Customer' }}</td>
                         <td>{{ $transaction->quantity }}</td>
