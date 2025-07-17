@@ -76,7 +76,7 @@ class PaymentController extends Controller
     {
         $transaction = $payment->transaction;
          if (!$transaction) {
-        return redirect()->route('transactions.index')->with('error', 'Transaction not found.');
+        return redirect()->route('payments.index')->with('error', 'Transaction not found.');
     }
         return view('payments.edit', compact('payment', 'transaction'));
     }

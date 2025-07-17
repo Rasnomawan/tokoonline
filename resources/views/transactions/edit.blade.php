@@ -65,7 +65,7 @@
 
         {{-- Total Price --}}
         <div class="mb-3">
-            <label class="form-label">Total Price</label>
+            <label class="form-label">Price</label>
             <input type="text" id="total_price" name="total_price" class="form-control" value="{{ $product->price }}" readonly>
         </div>
         <div class="d-flex justify-content-between mb-3">
